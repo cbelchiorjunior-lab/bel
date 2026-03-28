@@ -1,0 +1,16 @@
+{
+  "name": "bel-facebook-meta-integration",
+  "version": "1.0.0",
+  "description": "Facebook/Meta Graph API integration for account management",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "cli": "node src/cli.js"
+  },
+  "dependencies": {
+    "axios": "^1.7.2",
+    "dotenv": "^16.4.5",
+    "commander": "^12.1.0"
+  }
+}
