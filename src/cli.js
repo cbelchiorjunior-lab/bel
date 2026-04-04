@@ -2,6 +2,15 @@
 import 'dotenv/config';
 import { Command } from 'commander';
 import { FacebookClient } from './facebook.js';
+import { WordPressClient } from './wordpress.js';
+
+function makeWp() {
+  return new WordPressClient(
+    process.env.WP_SITE_URL,
+    process.env.WP_USERNAME,
+    process.env.WP_APP_PASSWORD,
+  );
+}
 
 const fb = new FacebookClient(process.env.FACEBOOK_ACCESS_TOKEN);
 const program = new Command();
@@ -123,6 +132,51 @@ program
   .action(async (pageId, recipientId, message) => {
     const data = await fb.sendMessage(pageId, recipientId, message);
     console.log('Mensagem enviada:', JSON.stringify(data, null, 2));
+  });
+
+// ─── WordPress / SEO ───────────────────────────────────────────────────────
+
+// wp-posts
+program
+  .command('wp-posts')
+  .description('Lista posts do WordPress')
+  .option('-n, --limit <n>', 'Número de posts', '10')
+  .option('-s, --search <text>', 'Filtrar por texto')
+  .option('--status <status>', 'Status dos posts (publish/draft/any)', 'publish')
+  .action(async (opts) => {
+    const wp = makeWp();
+    const params = { per_page: parseInt(opts.limit), status: opts.status };
+    if (opts.search) params.search = opts.search;
+    const posts = await wp.getPosts(params);
+    const rows = posts.map(p => ({ id: p.id, title: p.title?.rendered, status: p.status, link: p.link }));
+    console.table(rows);
+  });
+
+// wp-seo-get
+program
+  .command('wp-seo-get <postId>')
+  .description('Exibe os campos SEO (Rank Math) de um post')
+  .action(async (postId) => {
+    const wp = makeWp();
+    const data = await wp.getSeo(postId);
+    console.log(JSON.stringify(data, null, 2));
+  });
+
+// wp-seo-update
+program
+  .command('wp-seo-update <postId>')
+  .description('Atualiza campos SEO (Rank Math) de um post')
+  .option('-t, --seo-title <title>', 'Título SEO (rank_math_title)')
+  .option('-d, --meta-desc <desc>', 'Meta descrição (rank_math_description)')
+  .option('-k, --keyword <kw>', 'Palavra-chave foco (rank_math_focus_keyword)')
+  .action(async (postId, opts) => {
+    const wp = makeWp();
+    const data = await wp.updateSeo(postId, {
+      seoTitle: opts.seoTitle,
+      metaDescription: opts.metaDesc,
+      focusKeyword: opts.keyword,
+    });
+    console.log('SEO atualizado:', JSON.stringify(data, null, 2));
   });
 
 program.parseAsync(process.argv).catch(err => {
