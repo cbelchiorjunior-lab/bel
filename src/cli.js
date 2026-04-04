@@ -8,7 +8,7 @@ function makeWp() {
   return new WordPressClient(
     process.env.WP_SITE_URL,
     process.env.WP_USERNAME,
-    process.env.WP_APP_PASSWORD,
+    process.env.WP_PASSWORD,
   );
 }
 

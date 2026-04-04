@@ -1,20 +1,37 @@
 import axios from 'axios';
 
 export class WordPressClient {
-  constructor(siteUrl, username, appPassword) {
-    if (!siteUrl || !username || !appPassword) {
-      throw new Error('WP_SITE_URL, WP_USERNAME e WP_APP_PASSWORD são obrigatórios');
+  constructor(siteUrl, username, password) {
+    if (!siteUrl || !username || !password) {
+      throw new Error('WP_SITE_URL, WP_USERNAME e WP_PASSWORD são obrigatórios');
     }
-    const base = siteUrl.replace(/\/$/, '');
-    this.http = axios.create({
-      baseURL: `${base}/wp-json/wp/v2`,
-      auth: { username, password: appPassword },
+    this.base = siteUrl.replace(/\/$/, '');
+    this.username = username;
+    this.password = password;
+    this.token = null;
+    this.http = axios.create({ baseURL: `${this.base}/wp-json/wp/v2` });
+  }
+
+  // --- Autenticação JWT ---
+
+  async login() {
+    const res = await axios.post(`${this.base}/wp-json/jwt-auth/v1/token`, {
+      username: this.username,
+      password: this.password,
     });
+    this.token = res.data.token;
+    this.http.defaults.headers.common['Authorization'] = `Bearer ${this.token}`;
+    return this.token;
+  }
+
+  async ensureAuth() {
+    if (!this.token) await this.login();
   }
 
   // --- Posts ---
 
   async getPosts(params = {}) {
+    await this.ensureAuth();
     const res = await this.http.get('/posts', {
       params: { per_page: 10, context: 'edit', ...params },
     });
@@ -22,6 +39,7 @@ export class WordPressClient {
   }
 
   async getPost(postId) {
+    await this.ensureAuth();
     const res = await this.http.get(`/posts/${postId}`, {
       params: { context: 'edit' },
     });
@@ -31,8 +49,9 @@ export class WordPressClient {
   // --- Rank Math SEO ---
 
   async updateSeo(postId, { seoTitle, metaDescription, focusKeyword } = {}) {
+    await this.ensureAuth();
     const meta = {};
-    if (seoTitle !== undefined)       meta.rank_math_title = seoTitle;
+    if (seoTitle !== undefined)        meta.rank_math_title = seoTitle;
     if (metaDescription !== undefined) meta.rank_math_description = metaDescription;
     if (focusKeyword !== undefined)    meta.rank_math_focus_keyword = focusKeyword;
 
