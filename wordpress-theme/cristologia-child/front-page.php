@@ -121,6 +121,109 @@ if ( $recent->have_posts() ) :
 </section>
 <?php endif; ?>
 
+<!-- ======= LIVRO EM DESTAQUE ======= -->
+<section class="ct-book-feature" aria-label="Livro em destaque">
+  <div class="ct-book-feature__inner">
+
+    <!-- Livro principal -->
+    <div class="ct-book-feature__main">
+      <div class="ct-book-feature__cover-wrap">
+        <?php
+        $book_cover = get_theme_mod( 'ct_book_cover_url', '' );
+        if ( $book_cover ) :
+        ?>
+          <img src="<?php echo esc_url( $book_cover ); ?>"
+               alt="Roma Contra Cristo"
+               class="ct-book-feature__cover">
+        <?php else : ?>
+          <div class="ct-book-feature__cover-placeholder">
+            <span>📖</span>
+            <small>Roma<br>Contra<br>Cristo</small>
+          </div>
+        <?php endif; ?>
+        <div class="ct-book-feature__badge">Disponível agora</div>
+      </div>
+
+      <div class="ct-book-feature__info">
+        <p class="ct-book-feature__label">Livro em destaque</p>
+        <h2 class="ct-book-feature__title">Roma Contra Cristo</h2>
+        <p class="ct-book-feature__author">por <?php bloginfo( 'name' ); ?></p>
+        <p class="ct-book-feature__desc">
+          <?php echo esc_html( get_theme_mod( 'ct_book_desc', 'Uma obra que investiga a relação histórica e teológica entre o Império Romano e o movimento cristão primitivo, revelando como a perseguição forjou a identidade da Igreja.' ) ); ?>
+        </p>
+        <div class="ct-book-feature__actions">
+          <?php
+          $buy_link = get_theme_mod( 'ct_book_buy_url', '#' );
+          ?>
+          <a href="<?php echo esc_url( $buy_link ); ?>"
+             class="ct-book-feature__btn-buy"
+             target="_blank" rel="noopener">
+            🛒 Comprar agora
+          </a>
+          <a href="<?php echo esc_url( get_page_link( get_page_by_path( 'livros' ) ) ); ?>"
+             class="ct-book-feature__btn-more">
+            Ver todos os livros →
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Próximos lançamentos -->
+    <div class="ct-book-feature__upcoming">
+      <p class="ct-book-upcoming__label">Próximos lançamentos</p>
+      <div class="ct-book-upcoming__grid">
+        <div class="ct-book-upcoming__item">
+          <div class="ct-book-upcoming__cover">📖</div>
+          <div class="ct-book-upcoming__info">
+            <span class="ct-book-upcoming__date">Julho 2025</span>
+            <p class="ct-book-upcoming__title">Em breve…</p>
+            <p class="ct-book-upcoming__hint">Cadastre seu e-mail para ser avisado</p>
+          </div>
+        </div>
+        <div class="ct-book-upcoming__item">
+          <div class="ct-book-upcoming__cover">📖</div>
+          <div class="ct-book-upcoming__info">
+            <span class="ct-book-upcoming__date">Dezembro 2025</span>
+            <p class="ct-book-upcoming__title">Em breve…</p>
+            <p class="ct-book-upcoming__hint">Cadastre seu e-mail para ser avisado</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ======= AUTOR ======= -->
+<section class="ct-author-home" aria-label="Sobre o autor">
+  <div class="ct-author-home__inner">
+    <div class="ct-author-home__photo-wrap">
+      <?php
+      $author_photo = get_theme_mod( 'ct_author_photo_url', '' );
+      if ( $author_photo ) :
+      ?>
+        <img src="<?php echo esc_url( $author_photo ); ?>"
+             alt="Foto do autor"
+             class="ct-author-home__photo">
+      <?php else : ?>
+        <div class="ct-author-home__photo-placeholder">👤</div>
+      <?php endif; ?>
+    </div>
+    <div class="ct-author-home__content">
+      <p class="ct-author-home__label">Sobre o autor</p>
+      <h2 class="ct-author-home__name"><?php echo esc_html( get_theme_mod( 'ct_author_name', get_bloginfo( 'name' ) ) ); ?></h2>
+      <p class="ct-author-home__title"><?php echo esc_html( get_theme_mod( 'ct_author_title', 'Teólogo, escritor e pesquisador de cristologia' ) ); ?></p>
+      <p class="ct-author-home__bio">
+        <?php echo esc_html( get_theme_mod( 'ct_author_bio_short', 'Estudioso da teologia cristã com foco em cristologia e história da Igreja primitiva. Autor de obras que conectam a fé cristã às suas raízes históricas e bíblicas, tornando o estudo teológico acessível a todos.' ) ); ?>
+      </p>
+      <a href="<?php echo esc_url( get_page_link( get_page_by_path( 'sobre' ) ) ); ?>"
+         class="ct-author-home__link">
+        Conhecer biografia completa →
+      </a>
+    </div>
+  </div>
+</section>
+
 <!-- ======= SÉRIES TEOLÓGICAS ======= -->
 <section class="ct-series" aria-label="Séries teológicas">
   <div class="ct-series__inner">
