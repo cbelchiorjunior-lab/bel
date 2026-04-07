@@ -122,18 +122,16 @@ if ( $recent->have_posts() ) :
 <?php endif; ?>
 
 <!-- ======= LIVRO EM DESTAQUE ======= -->
+<?php $book = ct_book(); ?>
 <section class="ct-book-feature" aria-label="Livro em destaque">
   <div class="ct-book-feature__inner">
 
     <!-- Livro principal -->
     <div class="ct-book-feature__main">
       <div class="ct-book-feature__cover-wrap">
-        <?php
-        $book_cover = get_theme_mod( 'ct_book_cover_url', '' );
-        if ( $book_cover ) :
-        ?>
-          <img src="<?php echo esc_url( $book_cover ); ?>"
-               alt="Roma Contra Cristo"
+        <?php if ( ! empty( $book['cover_url'] ) ) : ?>
+          <img src="<?php echo esc_url( $book['cover_url'] ); ?>"
+               alt="<?php echo esc_attr( $book['title'] ); ?>"
                class="ct-book-feature__cover">
         <?php else : ?>
           <div class="ct-book-feature__cover-placeholder">
@@ -146,16 +144,11 @@ if ( $recent->have_posts() ) :
 
       <div class="ct-book-feature__info">
         <p class="ct-book-feature__label">Livro em destaque</p>
-        <h2 class="ct-book-feature__title">Roma Contra Cristo</h2>
-        <p class="ct-book-feature__author">por <?php bloginfo( 'name' ); ?></p>
-        <p class="ct-book-feature__desc">
-          <?php echo esc_html( get_theme_mod( 'ct_book_desc', 'Uma obra que investiga a relação histórica e teológica entre o Império Romano e o movimento cristão primitivo, revelando como a perseguição forjou a identidade da Igreja.' ) ); ?>
-        </p>
+        <h2 class="ct-book-feature__title"><?php echo esc_html( $book['title'] ); ?></h2>
+        <p class="ct-book-feature__author">por <?php echo esc_html( $book['author'] ); ?></p>
+        <p class="ct-book-feature__desc"><?php echo esc_html( $book['desc_long'] ); ?></p>
         <div class="ct-book-feature__actions">
-          <?php
-          $buy_link = get_theme_mod( 'ct_book_buy_url', '#' );
-          ?>
-          <a href="<?php echo esc_url( $buy_link ); ?>"
+          <a href="<?php echo esc_url( $book['buy_url'] ); ?>"
              class="ct-book-feature__btn-buy"
              target="_blank" rel="noopener">
             🛒 Comprar agora
@@ -177,7 +170,7 @@ if ( $recent->have_posts() ) :
           <div class="ct-book-upcoming__info">
             <span class="ct-book-upcoming__date">Julho 2025</span>
             <p class="ct-book-upcoming__title">Em breve…</p>
-            <p class="ct-book-upcoming__hint">Cadastre seu e-mail para ser avisado</p>
+            <p class="ct-book-upcoming__hint">Cadastre seu e-mail para ser avisado primeiro</p>
           </div>
         </div>
         <div class="ct-book-upcoming__item">
@@ -185,7 +178,7 @@ if ( $recent->have_posts() ) :
           <div class="ct-book-upcoming__info">
             <span class="ct-book-upcoming__date">Dezembro 2025</span>
             <p class="ct-book-upcoming__title">Em breve…</p>
-            <p class="ct-book-upcoming__hint">Cadastre seu e-mail para ser avisado</p>
+            <p class="ct-book-upcoming__hint">Cadastre seu e-mail para ser avisado primeiro</p>
           </div>
         </div>
       </div>
@@ -195,27 +188,21 @@ if ( $recent->have_posts() ) :
 </section>
 
 <!-- ======= AUTOR ======= -->
+<?php $author = ct_author(); ?>
 <section class="ct-author-home" aria-label="Sobre o autor">
   <div class="ct-author-home__inner">
     <div class="ct-author-home__photo-wrap">
-      <?php
-      $author_photo = get_theme_mod( 'ct_author_photo_url', '' );
-      if ( $author_photo ) :
-      ?>
-        <img src="<?php echo esc_url( $author_photo ); ?>"
-             alt="Foto do autor"
-             class="ct-author-home__photo">
-      <?php else : ?>
-        <div class="ct-author-home__photo-placeholder">👤</div>
-      <?php endif; ?>
+      <img src="<?php echo esc_url( ct_author_photo_url() ); ?>"
+           alt="<?php echo esc_attr( $author['name'] ); ?>"
+           class="ct-author-home__photo"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="ct-author-home__photo-placeholder" style="display:none;">C</div>
     </div>
     <div class="ct-author-home__content">
       <p class="ct-author-home__label">Sobre o autor</p>
-      <h2 class="ct-author-home__name"><?php echo esc_html( get_theme_mod( 'ct_author_name', get_bloginfo( 'name' ) ) ); ?></h2>
-      <p class="ct-author-home__title"><?php echo esc_html( get_theme_mod( 'ct_author_title', 'Teólogo, escritor e pesquisador de cristologia' ) ); ?></p>
-      <p class="ct-author-home__bio">
-        <?php echo esc_html( get_theme_mod( 'ct_author_bio_short', 'Estudioso da teologia cristã com foco em cristologia e história da Igreja primitiva. Autor de obras que conectam a fé cristã às suas raízes históricas e bíblicas, tornando o estudo teológico acessível a todos.' ) ); ?>
-      </p>
+      <h2 class="ct-author-home__name"><?php echo esc_html( $author['name'] ); ?></h2>
+      <p class="ct-author-home__title"><?php echo esc_html( $author['title'] ); ?></p>
+      <p class="ct-author-home__bio"><?php echo esc_html( $author['bio_short'] ); ?></p>
       <a href="<?php echo esc_url( get_page_link( get_page_by_path( 'sobre' ) ) ); ?>"
          class="ct-author-home__link">
         Conhecer biografia completa →

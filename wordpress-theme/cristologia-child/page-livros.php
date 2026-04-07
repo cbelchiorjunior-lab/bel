@@ -7,9 +7,11 @@
  */
 get_header();
 
-$buy_url    = get_theme_mod( 'ct_book_buy_url', '#' );
-$book_cover = get_theme_mod( 'ct_book_cover_url', '' );
-$book_desc  = get_theme_mod( 'ct_book_desc', 'Uma investigação histórica e teológica sobre a relação entre o Império Romano e o movimento cristão primitivo, revelando como a perseguição forjou a identidade da Igreja e a fé dos primeiros cristãos.' );
+$book    = ct_book();
+$author  = ct_author();
+$buy_url    = $book['buy_url'];
+$book_cover = $book['cover_url'];
+$book_desc  = $book['desc_long'];
 ?>
 
 <!-- BANNER -->
@@ -40,8 +42,8 @@ $book_desc  = get_theme_mod( 'ct_book_desc', 'Uma investigação histórica e te
 
     <div class="ct-book-page__info-col">
       <span class="ct-book-page__tag">Disponível agora</span>
-      <h2 class="ct-book-page__title">Roma Contra Cristo</h2>
-      <p class="ct-book-page__author">por <?php echo esc_html( get_theme_mod( 'ct_author_name', get_bloginfo( 'name' ) ) ); ?></p>
+      <h2 class="ct-book-page__title"><?php echo esc_html( $book['title'] ); ?></h2>
+      <p class="ct-book-page__author">por <?php echo esc_html( $author['name'] ); ?></p>
       <p class="ct-book-page__desc"><?php echo esc_html( $book_desc ); ?></p>
 
       <div class="ct-book-page__meta">

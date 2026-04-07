@@ -1,8 +1,51 @@
 <?php
 /**
  * Cristologia Teológica Child Theme — functions.php
- * Versão 2.0 — Corrigido para Kadence com SEO/OG/Schema
+ * Versão 3.0 — Dados reais do autor e livro
  */
+
+// ===================================================
+// DADOS DO AUTOR E LIVRO — edite aqui
+// ===================================================
+function ct_author() {
+    return array(
+        'name'       => 'Carlos Belchior Júnior',
+        'title'      => 'Economista, teólogo, apologista e escritor evangélico',
+        'bio_short'  => 'Especializado em arqueologia bíblica, história da Igreja primitiva e apologética cristã. Criador do canal Cristologia Teológica no YouTube, onde desenvolve apologética baseada em fontes primárias e patrística. Colunista com mais de 130 artigos teológicos.',
+        'bio_full'   => "Carlos Belchior Júnior é economista e teólogo, apologista e escritor evangélico com especialização em arqueologia bíblica, história da Igreja primitiva e apologética cristã. Estudante de pós-graduação em Teologia, Bíblia Avançada e Arqueologia, dedica sua pesquisa à interseção entre fé histórica e evidência documental, produzindo conteúdo que desafia tanto o ceticismo secular quanto a superficialidade religiosa.\n\nÉ criador do canal Cristologia Teológica no YouTube, onde desenvolve apologética evangélica baseada em fontes primárias, patrística e história documentada, alcançando cristãos que buscam uma fé intelectualmente fundamentada.\n\nColunista com mais de 130 artigos de assuntos teológicos, Carlos acredita que a fé cristã não teme o escrutínio histórico. Pelo contrário, é fortalecida por ele.",
+        // Após fazer upload da foto no WordPress (Mídia → Adicionar nova),
+        // cole a URL aqui:
+        'photo_url'  => '',
+        'photo_name' => 'carlos-belchior-junior.jpg', // nome do arquivo no tema
+        'youtube'    => 'https://www.youtube.com/@cristologiateologica',
+    );
+}
+
+function ct_book() {
+    return array(
+        'title'       => 'Roma Contra Cristo',
+        'author'      => 'Carlos Belchior Júnior',
+        'genre'       => 'Teologia Histórica / Apologética',
+        'language'    => 'Português',
+        'desc_short'  => 'O resultado de meses de estudo das perseguições romanas, das fontes que as documentaram e da teologia que sustentou a Igreja nos séculos em que o Império tentou apagá-la.',
+        'desc_long'   => 'Uma obra que investiga a relação histórica e teológica entre o Império Romano e o movimento cristão primitivo, revelando como a perseguição forjou a identidade da Igreja. Roma Contra Cristo é o resultado de meses de estudo das perseguições romanas, das fontes que as documentaram e da teologia que sustentou a Igreja nos séculos em que o Império tentou apagá-la.',
+        'buy_url'     => 'https://clubedeautores.com.br/livro/roma-contra-cristo',
+        // Após fazer upload da capa no WordPress (Mídia → Adicionar nova),
+        // cole a URL aqui:
+        'cover_url'   => '',
+    );
+}
+
+// Helper para foto do autor (usa arquivo local se não tiver URL do WP)
+function ct_author_photo_url() {
+    $author = ct_author();
+    if ( ! empty( $author['photo_url'] ) ) {
+        return $author['photo_url'];
+    }
+    // Foto local incluída no tema
+    $local = get_stylesheet_directory_uri() . '/images/autor.jpg';
+    return $local;
+}
 
 // ===================================================
 // ENQUEUE — prioridade 999 para sobrescrever o Kadence
