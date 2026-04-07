@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prévia — Cristologia Teológica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  :root {
+    --ct-primary:    #1a2a4a;
+    --ct-gold:       #b8952a;
+    --ct-gold-light: #d4af52;
+    --ct-dark:       #0f1b30;
+    --ct-text:       #2c2c2c;
+    --ct-muted:      #6b7280;
+    --ct-bg:         #f8f7f4;
+    --ct-white:      #ffffff;
+    --ct-border:     #e2ddd6;
+    --ct-font-serif: 'Playfair Display', Georgia, serif;
+    --ct-font-sans:  'Source Sans 3', 'Segoe UI', sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; font-family: var(--ct-font-serif); background: var(--ct-bg); color: var(--ct-text); -webkit-font-smoothing: antialiased; }
+  a { color: var(--ct-primary); text-decoration: none; transition: color .2s; }
+  a:hover { color: var(--ct-gold); }
+  h1,h2,h3,h4 { font-family: var(--ct-font-serif); color: var(--ct-primary); line-height: 1.3; }
+  p { margin-bottom: 1em; }
+  img { max-width: 100%; display: block; }
+
+  /* ===== HEADER ===== */
+  .site-header {
+    background: var(--ct-primary);
+    border-bottom: 3px solid var(--ct-gold);
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 20px rgba(0,0,0,.35);
+  }
+  .header-inner {
+    max-width: 1180px; margin: 0 auto; padding: 0 1.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .site-title {
+    color: #fff; font-family: var(--ct-font-serif);
+    font-size: 1.35rem; font-weight: bold; padding: 1rem 0;
+  }
+  .tagline { color: rgba(255,255,255,.55); font-size: .78rem; }
+  nav ul { display: flex; list-style: none; margin: 0; padding: 0; gap: .2rem; }
+  nav ul li a {
+    color: rgba(255,255,255,.88);
+    font-family: var(--ct-font-sans);
+    font-size: .82rem; font-weight: 600;
+    letter-spacing: .06em; text-transform: uppercase;
+    padding: 1rem .85rem; display: block;
+    transition: color .2s, background .2s;
+  }
+  nav ul li a:hover { color: var(--ct-gold-light); background: rgba(255,255,255,.07); }
+
+  /* ===== HERO ===== */
+  .ct-hero {
+    background: linear-gradient(135deg, var(--ct-dark) 0%, var(--ct-primary) 55%, #2a3f6b 100%);
+    color: #fff; text-align: center;
+    padding: 6rem 1.5rem 5rem;
+    position: relative; overflow: hidden;
+  }
+  .ct-hero::before {
+    content: '✝';
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    font-size: 28rem; color: rgba(255,255,255,.022);
+    pointer-events: none; line-height: 1;
+  }
+  .ct-hero__inner { position: relative; max-width: 780px; margin: 0 auto; }
+  .ct-hero__title { font-size: clamp(2rem,5vw,3.6rem); color: #fff; margin-bottom: .5rem; text-shadow: 0 2px 14px rgba(0,0,0,.4); }
+  .ct-hero__subtitle { font-size: 1.15rem; color: rgba(255,255,255,.72); font-style: italic; margin-bottom: 2rem; }
+  .ct-hero__divider { width: 60px; height: 3px; background: var(--ct-gold); margin: 0 auto 2rem; border: none; }
+  .ct-hero__desc { color: rgba(255,255,255,.72); font-size: 1.05rem; max-width: 560px; margin: 0 auto 2.5rem; }
+  .ct-hero__cta {
+    display: inline-block; background: var(--ct-gold);
+    color: var(--ct-dark) !important; padding: .9rem 2.4rem;
+    border-radius: 2px; font-family: var(--ct-font-sans);
+    font-weight: 700; font-size: .92rem;
+    letter-spacing: .09em; text-transform: uppercase;
+    box-shadow: 0 4px 18px rgba(0,0,0,.28);
+    transition: background .2s, transform .2s;
+  }
+  .ct-hero__cta:hover { background: var(--ct-gold-light) !important; transform: translateY(-2px); }
+
+  /* ===== MISSÃO ===== */
+  .ct-mission { background: var(--ct-white); padding: 4rem 1.5rem; text-align: center; border-bottom: 1px solid var(--ct-border); }
+  .ct-mission__inner { max-width: 720px; margin: 0 auto; }
+  .ct-mission__label { font-family: var(--ct-font-sans); font-size: .75rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--ct-gold); margin-bottom: 1rem; }
+  .ct-mission__title { font-size: 1.8rem; color: var(--ct-primary); margin-bottom: 1rem; }
+  .ct-mission__text { font-size: 1.05rem; color: var(--ct-muted); line-height: 1.8; }
+  .ct-mission__pillars { display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; margin-top: 2.5rem; }
+  .ct-mission__pillar { flex: 1; min-width: 160px; max-width: 200px; background: var(--ct-bg); border: 1px solid var(--ct-border); border-radius: 4px; padding: 1.5rem 1rem; }
+  .ct-mission__pillar-icon { font-size: 1.8rem; margin-bottom: .6rem; display: block; }
+  .ct-mission__pillar-title { font-size: .95rem; color: var(--ct-primary); font-weight: 700; margin-bottom: .4rem; }
+  .ct-mission__pillar-desc { font-size: .82rem; color: var(--ct-muted); line-height: 1.5; margin: 0; }
+
+  /* ===== TÓPICOS ===== */
+  .ct-topics { background: var(--ct-bg); padding: 3rem 1.5rem; border-bottom: 1px solid var(--ct-border); }
+  .ct-topics__inner { max-width: 1180px; margin: 0 auto; }
+  .ct-topics__title { text-align: center; font-family: var(--ct-font-sans); font-size: .78rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--ct-muted); margin-bottom: 1.5rem; }
+  .ct-topics__grid { display: flex; flex-wrap: wrap; gap: .6rem; justify-content: center; }
+  .ct-topics__tag {
+    background: var(--ct-white); border: 1px solid var(--ct-border);
+    color: var(--ct-primary) !important; padding: .5rem 1.3rem;
+    border-radius: 2px; font-family: var(--ct-font-sans);
+    font-size: .82rem; font-weight: 600; letter-spacing: .04em; transition: all .2s;
+  }
+  .ct-topics__tag:hover { background: var(--ct-primary) !important; color: #fff !important; border-color: var(--ct-primary) !important; }
+
+  /* ===== POSTS ===== */
+  .ct-posts-section { max-width: 1180px; margin: 0 auto; padding: 4rem 1.5rem; }
+  .ct-section-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 2.5rem; }
+  .ct-section-title { font-size: 1.35rem; color: var(--ct-primary); margin: 0; white-space: nowrap; }
+  .ct-section-line { flex: 1; height: 1px; background: var(--ct-border); }
+  .ct-section-more { font-family: var(--ct-font-sans); font-size: .8rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ct-gold) !important; white-space: nowrap; }
+  .ct-posts-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2rem; }
+  .ct-post-card { background: var(--ct-white); border: 1px solid var(--ct-border); border-radius: 4px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,.08); transition: transform .25s, box-shadow .25s; }
+  .ct-post-card:hover { transform: translateY(-4px); box-shadow: 0 8px 32px rgba(0,0,0,.12); }
+  .ct-post-card__thumb { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
+  .ct-post-card__thumb-placeholder { width: 100%; aspect-ratio: 16/9; background: linear-gradient(135deg, var(--ct-primary), #2a3f6b); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.18); font-size: 4rem; }
+  .ct-post-card__body { padding: 1.5rem; }
+  .ct-post-card__category { display: inline-block; font-family: var(--ct-font-sans); font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--ct-gold); margin-bottom: .6rem; }
+  .ct-post-card__title { font-size: 1.1rem; line-height: 1.4; margin: 0 0 .75rem; }
+  .ct-post-card__title a { color: var(--ct-primary) !important; }
+  .ct-post-card__title a:hover { color: var(--ct-gold) !important; }
+  .ct-post-card__excerpt { font-size: .88rem; color: var(--ct-muted); line-height: 1.6; margin-bottom: 1.1rem; }
+  .ct-post-card__meta { display: flex; align-items: center; gap: .6rem; font-family: var(--ct-font-sans); font-size: .76rem; color: var(--ct-muted); border-top: 1px solid var(--ct-border); padding-top: .75rem; }
+  .ct-post-card__read-more { margin-left: auto; color: var(--ct-gold) !important; font-weight: 700; font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; }
+
+  /* ===== SÉRIES ===== */
+  .ct-series { background: var(--ct-primary); padding: 4rem 1.5rem; }
+  .ct-series__inner { max-width: 1180px; margin: 0 auto; }
+  .ct-series__label { font-family: var(--ct-font-sans); font-size: .75rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--ct-gold-light); margin-bottom: .8rem; text-align: center; }
+  .ct-series__title { font-size: 1.8rem; color: #fff !important; text-align: center; margin-bottom: 2.5rem; }
+  .ct-series__grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.5rem; }
+  .ct-series__card { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); border-radius: 4px; padding: 1.8rem 1.5rem; transition: background .2s, transform .2s; text-decoration: none !important; display: block; }
+  .ct-series__card:hover { background: rgba(255,255,255,.1) !important; transform: translateY(-3px); }
+  .ct-series__card-icon { font-size: 2rem; margin-bottom: .8rem; display: block; }
+  .ct-series__card-title { font-size: 1.1rem; color: #fff !important; margin-bottom: .5rem; }
+  .ct-series__card-desc { font-size: .85rem; color: rgba(255,255,255,.6); line-height: 1.5; margin: 0; }
+
+  /* ===== VERSÍCULO ===== */
+  .ct-verse { background: var(--ct-dark); padding: 4rem 1.5rem; text-align: center; }
+  .ct-verse__inner { max-width: 700px; margin: 0 auto; }
+  .ct-verse blockquote { border: none !important; background: none !important; padding: 0 !important; margin: 0 !important; color: rgba(255,255,255,.88); font-size: clamp(1.1rem,2.5vw,1.35rem); font-style: italic; }
+  .ct-verse blockquote p { margin-bottom: .8em; }
+  .ct-verse cite { display: block; margin-top: 1rem; color: var(--ct-gold-light); font-size: .92rem; font-style: normal; font-family: var(--ct-font-sans); letter-spacing: .05em; }
+
+  /* ===== NEWSLETTER ===== */
+  .ct-newsletter { background: var(--ct-bg); border-top: 1px solid var(--ct-border); border-bottom: 1px solid var(--ct-border); padding: 4rem 1.5rem; text-align: center; }
+  .ct-newsletter__inner { max-width: 560px; margin: 0 auto; }
+  .ct-newsletter__title { font-size: 1.6rem; color: var(--ct-primary); margin-bottom: .6rem; }
+  .ct-newsletter__desc { color: var(--ct-muted); font-size: .95rem; margin-bottom: 2rem; }
+  .ct-newsletter__form { display: flex; gap: .5rem; max-width: 440px; margin: 0 auto; }
+  .ct-newsletter__input { flex: 1; padding: .8rem 1rem; border: 1px solid var(--ct-border); border-radius: 4px; font-family: var(--ct-font-sans); font-size: .95rem; background: var(--ct-white); }
+  .ct-newsletter__input:focus { outline: none; border-color: var(--ct-gold); }
+  .ct-newsletter__btn { background: var(--ct-primary); color: #fff; border: none; padding: .8rem 1.5rem; border-radius: 4px; font-family: var(--ct-font-sans); font-weight: 700; font-size: .88rem; letter-spacing: .06em; text-transform: uppercase; cursor: pointer; white-space: nowrap; transition: background .2s; }
+  .ct-newsletter__btn:hover { background: var(--ct-gold); color: var(--ct-dark); }
+
+  /* ===== FOOTER ===== */
+  .site-footer { background: var(--ct-dark); border-top: 3px solid var(--ct-gold); color: rgba(255,255,255,.7); }
+  .footer-widgets { max-width: 1180px; margin: 0 auto; padding: 3rem 1.5rem; display: grid; grid-template-columns: repeat(3,1fr); gap: 2rem; }
+  .footer-widget h4 { color: var(--ct-gold-light); font-family: var(--ct-font-sans); font-size: .85rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 1rem; padding-bottom: .75rem; border-bottom: 1px solid rgba(184,149,42,.35); }
+  .footer-widget ul { list-style: none; margin: 0; padding: 0; }
+  .footer-widget ul li { padding: .4rem 0; border-bottom: 1px solid rgba(255,255,255,.07); font-size: .88rem; }
+  .footer-widget ul li:last-child { border-bottom: none; }
+  .footer-widget a { color: var(--ct-gold-light) !important; }
+  .footer-widget a:hover { color: #fff !important; }
+  .site-info { text-align: center; padding: 1.2rem 1.5rem; border-top: 1px solid rgba(255,255,255,.1); font-family: var(--ct-font-sans); font-size: .8rem; color: rgba(255,255,255,.42); }
+  .site-info a { color: var(--ct-gold) !important; }
+
+  @media (max-width: 900px) {
+    .ct-posts-grid { grid-template-columns: 1fr 1fr; }
+    .ct-series__grid { grid-template-columns: 1fr 1fr; }
+    .footer-widgets { grid-template-columns: 1fr 1fr; }
+    nav ul { display: none; }
+  }
+  @media (max-width: 640px) {
+    .ct-posts-grid { grid-template-columns: 1fr; }
+    .ct-series__grid { grid-template-columns: 1fr 1fr; }
+    .footer-widgets { grid-template-columns: 1fr; }
+    .ct-newsletter__form { flex-direction: column; }
+    .ct-mission__pillars { gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-inner">
+    <div>
+      <div class="site-title">✝ Cristologia Teológica</div>
+      <div class="tagline">Estudos sobre a pessoa e obra de Cristo</div>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#">Início</a></li>
+        <li><a href="#">Artigos</a></li>
+        <li><a href="#">Categorias</a></li>
+        <li><a href="#">Sobre</a></li>
+        <li><a href="#">Contato</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="ct-hero">
+  <div class="ct-hero__inner">
+    <h1 class="ct-hero__title">Cristologia Teológica</h1>
+    <p class="ct-hero__subtitle">"Quem dizeis vós que eu sou?" — Mateus 16:15</p>
+    <hr class="ct-hero__divider">
+    <p class="ct-hero__desc">
+      Estudos aprofundados sobre a pessoa, natureza e obra de Jesus Cristo à luz das Escrituras Sagradas e da tradição teológica cristã.
+    </p>
+    <a href="#" class="ct-hero__cta">Explorar artigos</a>
+  </div>
+</section>
+
+<!-- MISSÃO -->
+<section class="ct-mission">
+  <div class="ct-mission__inner">
+    <p class="ct-mission__label">Nossa missão</p>
+    <h2 class="ct-mission__title">Aprofundando o conhecimento de Cristo</h2>
+    <p class="ct-mission__text">
+      Acreditamos que o estudo sério e sistemático da cristologia é essencial para a fé cristã. Aqui você encontra artigos, reflexões e análises que conectam as grandes questões teológicas com a vida prática e a devoção pessoal.
+    </p>
+    <div class="ct-mission__pillars">
+      <div class="ct-mission__pillar">
+        <span class="ct-mission__pillar-icon">📖</span>
+        <div class="ct-mission__pillar-title">Bíblico</div>
+        <p class="ct-mission__pillar-desc">Fundamentado nas Escrituras, o texto sagrado como autoridade suprema.</p>
+      </div>
+      <div class="ct-mission__pillar">
+        <span class="ct-mission__pillar-icon">✝</span>
+        <div class="ct-mission__pillar-title">Cristocêntrico</div>
+        <p class="ct-mission__pillar-desc">Jesus Cristo no centro de toda reflexão teológica e vida cristã.</p>
+      </div>
+      <div class="ct-mission__pillar">
+        <span class="ct-mission__pillar-icon">🎓</span>
+        <div class="ct-mission__pillar-title">Rigoroso</div>
+        <p class="ct-mission__pillar-desc">Pesquisa séria, fontes confiáveis e argumentação cuidadosa.</p>
+      </div>
+      <div class="ct-mission__pillar">
+        <span class="ct-mission__pillar-icon">🙏</span>
+        <div class="ct-mission__pillar-title">Devocional</div>
+        <p class="ct-mission__pillar-desc">Teologia que alimenta a alma e aprofunda a relação com Deus.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TÓPICOS -->
+<section class="ct-topics">
+  <div class="ct-topics__inner">
+    <p class="ct-topics__title">Explore por tema</p>
+    <div class="ct-topics__grid">
+      <a href="#" class="ct-topics__tag">Encarnação <span style="color:var(--ct-muted);font-weight:400;">(12)</span></a>
+      <a href="#" class="ct-topics__tag">Trindade <span style="color:var(--ct-muted);font-weight:400;">(9)</span></a>
+      <a href="#" class="ct-topics__tag">Soteriologia <span style="color:var(--ct-muted);font-weight:400;">(8)</span></a>
+      <a href="#" class="ct-topics__tag">Cristologia Histórica <span style="color:var(--ct-muted);font-weight:400;">(7)</span></a>
+      <a href="#" class="ct-topics__tag">Pneumatologia <span style="color:var(--ct-muted);font-weight:400;">(5)</span></a>
+      <a href="#" class="ct-topics__tag">Escatologia <span style="color:var(--ct-muted);font-weight:400;">(4)</span></a>
+      <a href="#" class="ct-topics__tag">Hermenêutica <span style="color:var(--ct-muted);font-weight:400;">(3)</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- POSTS RECENTES -->
+<section class="ct-posts-section">
+  <div class="ct-section-header">
+    <h2 class="ct-section-title">Artigos Recentes</h2>
+    <div class="ct-section-line"></div>
+    <a href="#" class="ct-section-more">Ver todos →</a>
+  </div>
+  <div class="ct-posts-grid">
+
+    <article class="ct-post-card">
+      <div class="ct-post-card__thumb-placeholder">✝</div>
+      <div class="ct-post-card__body">
+        <a href="#" class="ct-post-card__category">Encarnação</a>
+        <h3 class="ct-post-card__title"><a href="#">A Natureza Divina e Humana de Cristo: Calcedônia e Seus Desdobramentos</a></h3>
+        <p class="ct-post-card__excerpt">O Concílio de Calcedônia (451 d.C.) definiu que Cristo possui duas naturezas, divina e humana, unidas em uma única pessoa…</p>
+        <div class="ct-post-card__meta">
+          <time>07/04/2026</time><span>·</span><span>8 min</span>
+          <a href="#" class="ct-post-card__read-more">Ler →</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="ct-post-card">
+      <div class="ct-post-card__thumb-placeholder">✝</div>
+      <div class="ct-post-card__body">
+        <a href="#" class="ct-post-card__category">Trindade</a>
+        <h3 class="ct-post-card__title"><a href="#">O Filho Eterno: Preexistência e Geração Eterna no Evangelho de João</a></h3>
+        <p class="ct-post-card__excerpt">O prólogo joanino (Jo 1:1-18) apresenta o Logos como preexistente, distinto do Pai e, ao mesmo tempo, plenamente Deus…</p>
+        <div class="ct-post-card__meta">
+          <time>02/04/2026</time><span>·</span><span>6 min</span>
+          <a href="#" class="ct-post-card__read-more">Ler →</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="ct-post-card">
+      <div class="ct-post-card__thumb-placeholder">✝</div>
+      <div class="ct-post-card__body">
+        <a href="#" class="ct-post-card__category">Soteriologia</a>
+        <h3 class="ct-post-card__title"><a href="#">Expiação Substitutiva: Cristo como Nosso Representante Perante Deus</a></h3>
+        <p class="ct-post-card__excerpt">A doutrina da expiação substitutiva afirma que Cristo sofreu em nosso lugar, suportando a pena que merecíamos por nossos pecados…</p>
+        <div class="ct-post-card__meta">
+          <time>28/03/2026</time><span>·</span><span>10 min</span>
+          <a href="#" class="ct-post-card__read-more">Ler →</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="ct-post-card">
+      <div class="ct-post-card__thumb-placeholder">✝</div>
+      <div class="ct-post-card__body">
+        <a href="#" class="ct-post-card__category">Cristologia Histórica</a>
+        <h3 class="ct-post-card__title"><a href="#">O Jesus Histórico: Métodos e Limites da Pesquisa Acadêmica</a></h3>
+        <p class="ct-post-card__excerpt">Desde o século XVIII, acadêmicos têm buscado reconstruir o "Jesus histórico" por trás dos Evangelhos. Quais são os critérios utilizados…</p>
+        <div class="ct-post-card__meta">
+          <time>20/03/2026</time><span>·</span><span>7 min</span>
+          <a href="#" class="ct-post-card__read-more">Ler →</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="ct-post-card">
+      <div class="ct-post-card__thumb-placeholder">✝</div>
+      <div class="ct-post-card__body">
+        <a href="#" class="ct-post-card__category">Encarnação</a>
+        <h3 class="ct-post-card__title"><a href="#">Quênose: O Que Significa Dizer que o Filho "Se Esvaziou"?</a></h3>
+        <p class="ct-post-card__excerpt">Filipenses 2:7 afirma que Cristo "se despojou a si mesmo" (ekenōsen). O que exatamente isso significa para nossa compreensão da divindade de Cristo…</p>
+        <div class="ct-post-card__meta">
+          <time>14/03/2026</time><span>·</span><span>9 min</span>
+          <a href="#" class="ct-post-card__read-more">Ler →</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="ct-post-card">
+      <div class="ct-post-card__thumb-placeholder">✝</div>
+      <div class="ct-post-card__body">
+        <a href="#" class="ct-post-card__category">Escatologia</a>
+        <h3 class="ct-post-card__title"><a href="#">A Segunda Vinda de Cristo: Perspectivas Escatológicas Comparadas</a></h3>
+        <p class="ct-post-card__excerpt">O retorno glorioso de Cristo é uma das doutrinas mais esperadas do Novo Testamento. Como as diferentes tradições cristãs compreendem esse evento…</p>
+        <div class="ct-post-card__meta">
+          <time>05/03/2026</time><span>·</span><span>5 min</span>
+          <a href="#" class="ct-post-card__read-more">Ler →</a>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- SÉRIES TEOLÓGICAS -->
+<section class="ct-series">
+  <div class="ct-series__inner">
+    <p class="ct-series__label">Aprofunde-se</p>
+    <h2 class="ct-series__title">Séries de Estudo</h2>
+    <div class="ct-series__grid">
+      <a href="#" class="ct-series__card">
+        <span class="ct-series__card-icon">✝</span>
+        <div class="ct-series__card-title">Encarnação</div>
+        <p class="ct-series__card-desc">12 artigos publicados</p>
+      </a>
+      <a href="#" class="ct-series__card">
+        <span class="ct-series__card-icon">📖</span>
+        <div class="ct-series__card-title">Trindade</div>
+        <p class="ct-series__card-desc">9 artigos publicados</p>
+      </a>
+      <a href="#" class="ct-series__card">
+        <span class="ct-series__card-icon">🎓</span>
+        <div class="ct-series__card-title">Soteriologia</div>
+        <p class="ct-series__card-desc">8 artigos publicados</p>
+      </a>
+      <a href="#" class="ct-series__card">
+        <span class="ct-series__card-icon">🙏</span>
+        <div class="ct-series__card-title">Cristologia Histórica</div>
+        <p class="ct-series__card-desc">7 artigos publicados</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- VERSÍCULO -->
+<section class="ct-verse">
+  <div class="ct-verse__inner">
+    <blockquote>
+      <p>"Ele é a imagem do Deus invisível, o primogênito de toda a criação; porque nele foram criadas todas as coisas."</p>
+      <cite>Colossenses 1:15-16</cite>
+    </blockquote>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="ct-newsletter">
+  <div class="ct-newsletter__inner">
+    <h2 class="ct-newsletter__title">Receba novos artigos</h2>
+    <p class="ct-newsletter__desc">Inscreva-se e seja notificado quando publicarmos novos estudos sobre cristologia e teologia.</p>
+    <form class="ct-newsletter__form" onsubmit="return false;">
+      <input type="email" class="ct-newsletter__input" placeholder="seu@email.com.br">
+      <button type="submit" class="ct-newsletter__btn">Inscrever-se</button>
+    </form>
+    <p style="font-family:var(--ct-font-sans);font-size:.75rem;color:var(--ct-muted);margin-top:.8rem;">
+      Sem spam. Cancele quando quiser.
+    </p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-widgets">
+    <div class="footer-widget">
+      <h4>Sobre o Blog</h4>
+      <p style="font-size:.88rem;color:rgba(255,255,255,.55);line-height:1.6;">
+        Estudos sérios e acessíveis sobre a pessoa, natureza e obra de Jesus Cristo, fundamentados nas Escrituras.
+      </p>
+    </div>
+    <div class="footer-widget">
+      <h4>Artigos Recentes</h4>
+      <ul>
+        <li><a href="#">A Natureza Divina e Humana de Cristo</a></li>
+        <li><a href="#">O Filho Eterno no Evangelho de João</a></li>
+        <li><a href="#">Expiação Substitutiva</a></li>
+        <li><a href="#">O Jesus Histórico</a></li>
+      </ul>
+    </div>
+    <div class="footer-widget">
+      <h4>Categorias</h4>
+      <ul>
+        <li><a href="#">Encarnação (12)</a></li>
+        <li><a href="#">Trindade (9)</a></li>
+        <li><a href="#">Soteriologia (8)</a></li>
+        <li><a href="#">Escatologia (4)</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="site-info">
+    © 2026 <a href="#">Cristologia Teológica</a> · Todos os direitos reservados
+  </div>
+</footer>
+
+</body>
+</html>
