@@ -1,122 +1,264 @@
 <?php
 /**
  * Cristologia Teológica Child Theme — functions.php
+ * Versão 2.0 — Corrigido para Kadence com SEO/OG/Schema
  */
 
-// Enqueue estilos pai (Kadence) + filho
-add_action( 'wp_enqueue_scripts', 'ct_enqueue_styles' );
+// ===================================================
+// ENQUEUE — prioridade 999 para sobrescrever o Kadence
+// ===================================================
+add_action( 'wp_enqueue_scripts', 'ct_enqueue_styles', 999 );
 function ct_enqueue_styles() {
-    wp_enqueue_style(
-        'kadence-parent-style',
-        get_template_directory_uri() . '/style.css'
-    );
-    wp_enqueue_style(
-        'cristologia-child-style',
-        get_stylesheet_uri(),
-        array( 'kadence-parent-style' ),
-        wp_get_theme()->get( 'Version' )
-    );
-    // Google Fonts
+    // Google Fonts (Playfair Display + Source Sans 3)
     wp_enqueue_style(
         'ct-google-fonts',
-        'https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@400;600&display=swap',
+        'https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Sans+3:wght@400;600;700&display=swap',
         array(),
         null
     );
+
+    // Estilo filho (depende apenas das Google Fonts, não do pai — Kadence enfileira o próprio css)
+    wp_enqueue_style(
+        'cristologia-child-style',
+        get_stylesheet_uri(),
+        array( 'ct-google-fonts' ),
+        wp_get_theme()->get( 'Version' )
+    );
 }
 
-// Suporte a recursos do tema
+// ===================================================
+// SUPORTE A RECURSOS
+// ===================================================
 add_action( 'after_setup_theme', 'ct_theme_setup' );
 function ct_theme_setup() {
-    // Thumbnails
     add_theme_support( 'post-thumbnails' );
     add_image_size( 'ct-card', 600, 338, true );
-    add_image_size( 'ct-hero', 1200, 600, true );
-
-    // Título na aba do browser
+    add_image_size( 'ct-hero-img', 1200, 600, true );
     add_theme_support( 'title-tag' );
-
-    // HTML5
-    add_theme_support( 'html5', array(
-        'search-form', 'comment-form', 'comment-list', 'gallery', 'caption', 'style', 'script'
-    ) );
-
-    // Suporte a logo personalizada
-    add_theme_support( 'custom-logo', array(
-        'height'      => 80,
-        'width'       => 240,
-        'flex-height' => true,
-        'flex-width'  => true,
-    ) );
-
-    // Editor de largura
+    add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption' ) );
+    add_theme_support( 'custom-logo', array( 'height' => 80, 'width' => 240, 'flex-height' => true, 'flex-width' => true ) );
     add_theme_support( 'editor-styles' );
     add_theme_support( 'wp-block-styles' );
     add_theme_support( 'align-wide' );
+    add_theme_support( 'responsive-embeds' );
 
-    // Menus de navegação
     register_nav_menus( array(
-        'primary'  => __( 'Menu Principal', 'cristologia-child' ),
-        'footer'   => __( 'Menu Rodapé', 'cristologia-child' ),
+        'primary' => __( 'Menu Principal', 'cristologia-child' ),
+        'footer'  => __( 'Menu Rodapé',    'cristologia-child' ),
     ) );
 }
 
-// Registrar áreas de widgets
+// ===================================================
+// WIDGETS
+// ===================================================
 add_action( 'widgets_init', 'ct_widgets_init' );
 function ct_widgets_init() {
-    register_sidebar( array(
-        'name'          => __( 'Barra Lateral', 'cristologia-child' ),
-        'id'            => 'sidebar-1',
-        'description'   => __( 'Barra lateral do blog.', 'cristologia-child' ),
+    $defaults = array(
         'before_widget' => '<div id="%1$s" class="widget %2$s">',
         'after_widget'  => '</div>',
         'before_title'  => '<h3 class="widget-title">',
         'after_title'   => '</h3>',
-    ) );
+    );
 
-    register_sidebar( array(
-        'name'          => __( 'Rodapé — Coluna 1', 'cristologia-child' ),
-        'id'            => 'footer-1',
-        'before_widget' => '<div id="%1$s" class="widget footer-widget %2$s">',
-        'after_widget'  => '</div>',
-        'before_title'  => '<h4 class="widget-title">',
-        'after_title'   => '</h4>',
-    ) );
+    register_sidebar( array_merge( $defaults, array(
+        'name' => __( 'Barra Lateral', 'cristologia-child' ),
+        'id'   => 'sidebar-1',
+    ) ) );
 
-    register_sidebar( array(
-        'name'          => __( 'Rodapé — Coluna 2', 'cristologia-child' ),
-        'id'            => 'footer-2',
-        'before_widget' => '<div id="%1$s" class="widget footer-widget %2$s">',
-        'after_widget'  => '</div>',
-        'before_title'  => '<h4 class="widget-title">',
-        'after_title'   => '</h4>',
-    ) );
-
-    register_sidebar( array(
-        'name'          => __( 'Rodapé — Coluna 3', 'cristologia-child' ),
-        'id'            => 'footer-3',
-        'before_widget' => '<div id="%1$s" class="widget footer-widget %2$s">',
-        'after_widget'  => '</div>',
-        'before_title'  => '<h4 class="widget-title">',
-        'after_title'   => '</h4>',
-    ) );
+    for ( $i = 1; $i <= 3; $i++ ) {
+        register_sidebar( array_merge( $defaults, array(
+            'name'         => sprintf( __( 'Rodapé — Coluna %d', 'cristologia-child' ), $i ),
+            'id'           => "footer-{$i}",
+            'before_title' => '<h4 class="widget-title">',
+            'after_title'  => '</h4>',
+        ) ) );
+    }
 }
 
-// Trecho de leitura — tamanho
-add_filter( 'excerpt_length', function() { return 30; }, 999 );
+// ===================================================
+// EXCERPT
+// ===================================================
+add_filter( 'excerpt_length', function() { return 28; }, 999 );
 add_filter( 'excerpt_more', function() {
-    return '&hellip; <a class="read-more" href="' . get_permalink() . '">' . __( 'Leia mais', 'cristologia-child' ) . '</a>';
+    return '&hellip;';
 } );
 
-// Helper: tempo estimado de leitura
-function ct_reading_time() {
-    $content    = get_post_field( 'post_content', get_the_ID() );
-    $word_count = str_word_count( strip_tags( $content ) );
+// ===================================================
+// HELPER: TEMPO DE LEITURA
+// ===================================================
+function ct_reading_time( $post_id = null ) {
+    $post_id    = $post_id ?: get_the_ID();
+    $content    = get_post_field( 'post_content', $post_id );
+    $word_count = str_word_count( wp_strip_all_tags( $content ) );
     $minutes    = max( 1, (int) ceil( $word_count / 200 ) );
-    return $minutes . ' min de leitura';
+    return $minutes . ' min';
 }
 
-// Adicionar classe ao body para posts
+// ===================================================
+// HELPER: BREADCRUMB
+// ===================================================
+function ct_breadcrumb() {
+    if ( is_front_page() ) {
+        return;
+    }
+    echo '<nav class="ct-breadcrumb" aria-label="Breadcrumb">';
+    echo '<a href="' . esc_url( home_url( '/' ) ) . '">Início</a>';
+    if ( is_category() ) {
+        echo '<span> / </span><span>' . single_cat_title( '', false ) . '</span>';
+    } elseif ( is_single() ) {
+        $cats = get_the_category();
+        if ( $cats ) {
+            echo '<span> / </span>';
+            echo '<a href="' . esc_url( get_category_link( $cats[0]->term_id ) ) . '">' . esc_html( $cats[0]->name ) . '</a>';
+        }
+        echo '<span> / </span><span>' . get_the_title() . '</span>';
+    } elseif ( is_page() ) {
+        echo '<span> / </span><span>' . get_the_title() . '</span>';
+    } elseif ( is_search() ) {
+        echo '<span> / </span><span>Busca: ' . esc_html( get_search_query() ) . '</span>';
+    }
+    echo '</nav>';
+}
+
+// ===================================================
+// HELPER: BOTÕES DE COMPARTILHAMENTO
+// ===================================================
+function ct_share_buttons() {
+    $url    = urlencode( get_permalink() );
+    $title  = urlencode( get_the_title() );
+    $text   = urlencode( get_the_title() . ' — ' . get_permalink() );
+    ?>
+    <div class="ct-share">
+        <p class="ct-share__label">Compartilhe este artigo</p>
+        <div class="ct-share__buttons">
+            <a href="https://api.whatsapp.com/send?text=<?php echo $text; ?>"
+               target="_blank" rel="noopener noreferrer"
+               class="ct-share__btn ct-share__btn--whatsapp">
+                📱 WhatsApp
+            </a>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo $url; ?>"
+               target="_blank" rel="noopener noreferrer"
+               class="ct-share__btn ct-share__btn--facebook">
+                👥 Facebook
+            </a>
+            <a href="https://twitter.com/intent/tweet?url=<?php echo $url; ?>&text=<?php echo $title; ?>"
+               target="_blank" rel="noopener noreferrer"
+               class="ct-share__btn ct-share__btn--twitter">
+                🐦 Twitter
+            </a>
+            <button onclick="navigator.clipboard.writeText('<?php echo esc_js( get_permalink() ); ?>');this.textContent='✅ Copiado!';setTimeout(()=>this.textContent='🔗 Copiar link',2000);"
+                    class="ct-share__btn ct-share__btn--copy">
+                🔗 Copiar link
+            </button>
+        </div>
+    </div>
+    <?php
+}
+
+// ===================================================
+// SEO — META TAGS OPEN GRAPH / TWITTER CARD
+// ===================================================
+add_action( 'wp_head', 'ct_seo_meta_tags', 1 );
+function ct_seo_meta_tags() {
+    if ( ! is_singular() ) {
+        return;
+    }
+
+    global $post;
+    $title       = get_the_title( $post );
+    $description = '';
+
+    if ( has_excerpt( $post ) ) {
+        $description = wp_strip_all_tags( get_the_excerpt( $post ) );
+    } else {
+        $description = wp_trim_words( wp_strip_all_tags( $post->post_content ), 30, '' );
+    }
+
+    $image_url = '';
+    if ( has_post_thumbnail( $post ) ) {
+        $thumb     = wp_get_attachment_image_src( get_post_thumbnail_id( $post ), 'ct-hero-img' );
+        $image_url = $thumb ? $thumb[0] : '';
+    }
+    if ( ! $image_url ) {
+        $image_url = get_stylesheet_directory_uri() . '/screenshot.png';
+    }
+
+    $site_name = get_bloginfo( 'name' );
+    $url       = get_permalink( $post );
+    $locale    = 'pt_BR';
+
+    // Open Graph
+    echo '<meta property="og:type"        content="article" />' . "\n";
+    echo '<meta property="og:title"       content="' . esc_attr( $title ) . '" />' . "\n";
+    echo '<meta property="og:description" content="' . esc_attr( $description ) . '" />' . "\n";
+    echo '<meta property="og:url"         content="' . esc_url( $url ) . '" />' . "\n";
+    echo '<meta property="og:site_name"   content="' . esc_attr( $site_name ) . '" />' . "\n";
+    echo '<meta property="og:locale"      content="' . esc_attr( $locale ) . '" />' . "\n";
+    if ( $image_url ) {
+        echo '<meta property="og:image"   content="' . esc_url( $image_url ) . '" />' . "\n";
+        echo '<meta property="og:image:width"  content="1200" />' . "\n";
+        echo '<meta property="og:image:height" content="630" />' . "\n";
+    }
+
+    // Twitter Card
+    echo '<meta name="twitter:card"        content="summary_large_image" />' . "\n";
+    echo '<meta name="twitter:title"       content="' . esc_attr( $title ) . '" />' . "\n";
+    echo '<meta name="twitter:description" content="' . esc_attr( $description ) . '" />' . "\n";
+    if ( $image_url ) {
+        echo '<meta name="twitter:image"   content="' . esc_url( $image_url ) . '" />' . "\n";
+    }
+
+    // Meta description padrão
+    echo '<meta name="description" content="' . esc_attr( $description ) . '" />' . "\n";
+}
+
+// ===================================================
+// SEO — SCHEMA.ORG PARA POSTS (JSON-LD)
+// ===================================================
+add_action( 'wp_footer', 'ct_schema_markup' );
+function ct_schema_markup() {
+    if ( ! is_singular( 'post' ) ) {
+        return;
+    }
+
+    global $post;
+    $author_name = get_the_author_meta( 'display_name', $post->post_author );
+    $image_url   = '';
+    if ( has_post_thumbnail( $post ) ) {
+        $thumb     = wp_get_attachment_image_src( get_post_thumbnail_id( $post ), 'ct-hero-img' );
+        $image_url = $thumb ? $thumb[0] : '';
+    }
+
+    $schema = array(
+        '@context'         => 'https://schema.org',
+        '@type'            => 'Article',
+        'headline'         => get_the_title( $post ),
+        'description'      => wp_trim_words( wp_strip_all_tags( $post->post_content ), 30, '' ),
+        'datePublished'    => get_the_date( 'c', $post ),
+        'dateModified'     => get_the_modified_date( 'c', $post ),
+        'url'              => get_permalink( $post ),
+        'inLanguage'       => 'pt-BR',
+        'author'           => array(
+            '@type' => 'Person',
+            'name'  => $author_name,
+        ),
+        'publisher'        => array(
+            '@type' => 'Organization',
+            'name'  => get_bloginfo( 'name' ),
+            'url'   => home_url(),
+        ),
+    );
+
+    if ( $image_url ) {
+        $schema['image'] = $image_url;
+    }
+
+    echo '<script type="application/ld+json">' . wp_json_encode( $schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) . '</script>' . "\n";
+}
+
+// ===================================================
+// CLASSE BODY PARA POSTS
+// ===================================================
 add_filter( 'body_class', function( $classes ) {
     if ( is_singular( 'post' ) ) {
         $classes[] = 'ct-single-post';
@@ -124,13 +266,8 @@ add_filter( 'body_class', function( $classes ) {
     return $classes;
 } );
 
-// Google Fonts via Playfair Display (override nas variáveis CSS)
-add_action( 'wp_head', 'ct_custom_fonts_override' );
-function ct_custom_fonts_override() {
-    echo '<style>
-    :root {
-      --ct-font-serif: "Playfair Display", Georgia, serif;
-      --ct-font-sans:  "Source Sans 3", "Segoe UI", sans-serif;
-    }
-    </style>';
-}
+// ===================================================
+// SEGURANÇA: REMOVER VERSÃO DO WORDPRESS DO HTML
+// ===================================================
+remove_action( 'wp_head', 'wp_generator' );
+add_filter( 'the_generator', '__return_empty_string' );
