@@ -1,0 +1,29 @@
+FOTO DO AUTOR — Carlos Belchior Júnior
+======================================
+
+Coloque sua foto nesta pasta com o nome exato:
+
+    autor.jpg
+
+O tema vai exibi-la automaticamente em:
+  - Homepage (seção "Sobre o autor")
+  - Página "Sobre"
+
+COMO FAZER O UPLOAD:
+  1. Via FTP/Hostinger File Manager:
+     Acesse: public_html/wp-content/themes/cristologia-child/images/
+     Faça upload do arquivo como "autor.jpg"
+
+  2. Via WordPress (alternativa):
+     - Mídia → Adicionar nova → faça upload da sua foto
+     - Copie a URL da imagem
+     - Abra functions.php e cole a URL em:
+       'photo_url' => 'COLE_A_URL_AQUI',
+
+CAPA DO LIVRO — Roma Contra Cristo
+====================================
+Da mesma forma, coloque a capa do livro nesta pasta:
+
+    capa-roma-contra-cristo.jpg
+
+Ou faça upload pelo WordPress e atualize 'cover_url' em functions.php.
